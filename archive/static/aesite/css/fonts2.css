@@ -1,0 +1,17 @@
+@font-face {
+    font-family: "StagSans Light";
+    src: url("/static/aesite/fonts/StagSans-Light.woff2");
+}
+
+@font-face {
+    font-family: "Stag Regular";
+    src: url("/static/aesite/fonts/Stag-Regular.woff2");
+}
+
+.site-title {
+    font-family: "Stag Regular", sans-serif;
+}
+
+body {
+    font-family: "StagSans Light", sans-serif;
+}

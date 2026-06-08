@@ -1,0 +1,172 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block title %}Search{% endblock %}
+
+{% block content %}
+<!-- Search -->
+ <title>Search</title>
+
+  <main class="max-w-5xl mx-auto px-4 py-10">
+
+    <!-- Search bar -->
+    <div class="mb-6">
+      <input
+        id="searchInput"
+        type="text"
+        placeholder="Search by title, student, programme, or tag..."
+        class="w-full border border-gray-300 rounded-lg px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-[#0c596e]"
+        oninput="filterProjects()"
+      />
+    </div>
+
+    <!-- Tag filters -->
+    <div id="tagFilters" class="flex flex-wrap gap-2 mb-8">
+      <!-- Tags injected by JS -->
+    </div>
+
+    <!-- Results -->
+    <div id="results" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      <!-- Cards injected by JS -->
+    </div>
+
+    <p id="noResults" class="hidden text-center text-gray-400 mt-10">No projects found.</p>
+
+  </main>
+
+  <script>
+    const projects = [
+      {
+        id: 1,
+        title: "Sustainable Urban Design",
+        student: "Emma Tane",
+        year: 2024,
+        programme: "Bachelor of Architectural Studies",
+        tags: ["architecture", "sustainability", "urban"],
+        poster: "/static/aesite/files/poster1.pdf",
+        paper: "/static/aesite/files/paper1.pdf",
+      },
+      {
+        id: 2,
+        title: "AI in Healthcare",
+        student: "James Patel",
+        year: 2024,
+        programme: "Bachelor of Computing",
+        tags: ["computing", "AI", "healthcare"],
+        poster: "/static/aesite/files/poster2.pdf",
+        paper: "/static/aesite/files/paper2.pdf",
+      },
+      {
+        id: 3,
+        title: "Structural Load Analysis",
+        student: "Sofia Nguyen",
+        year: 2023,
+        programme: "Bachelor of Engineering",
+        tags: ["engineering", "structures", "analysis"],
+        poster: "/static/aesite/files/poster3.pdf",
+        paper: "/static/aesite/files/paper3.pdf",
+      },
+      {
+        id: 4,
+        title: "Brand Identity for Local Business",
+        student: "Liam Foster",
+        year: 2023,
+        programme: "Bachelor of Design",
+        tags: ["design", "branding", "typography"],
+        poster: "/static/aesite/files/poster4.pdf",
+        paper: "/static/aesite/files/paper4.pdf",
+      },
+      {
+        id: 5,
+        title: "Renewable Energy Systems",
+        student: "Aroha Williams",
+        year: 2024,
+        programme: "Bachelor of Engineering",
+        tags: ["engineering", "sustainability", "energy"],
+        poster: "/static/aesite/files/poster5.pdf",
+        paper: "/static/aesite/files/paper5.pdf",
+      },
+      {
+        id: 6,
+        title: "Interactive Museum Experience",
+        student: "Chen Wei",
+        year: 2023,
+        programme: "Bachelor of Design",
+        tags: ["design", "UX", "interactive"],
+        poster: "/static/aesite/files/poster6.pdf",
+        paper: "/static/aesite/files/paper6.pdf",
+      },
+    ];
+
+    // Collect all unique tags
+    const allTags = [...new Set(projects.flatMap(p => p.tags))].sort();
+    let activeTags = new Set();
+
+    // Render tag filter buttons
+    const tagContainer = document.getElementById('tagFilters');
+    allTags.forEach(tag => {
+      const btn = document.createElement('button');
+      btn.textContent = tag;
+      btn.dataset.tag = tag;
+      btn.className = 'px-3 py-1 rounded-full text-sm border border-[#0c596e] text-[#0c596e] hover:bg-[#0c596e] hover:text-white transition';
+      btn.onclick = () => toggleTag(tag, btn);
+      tagContainer.appendChild(btn);
+    });
+
+    function toggleTag(tag, btn) {
+      if (activeTags.has(tag)) {
+        activeTags.delete(tag);
+        btn.classList.remove('bg-[#0c596e]', 'text-white');
+        btn.classList.add('text-[#0c596e]');
+      } else {
+        activeTags.add(tag);
+        btn.classList.add('bg-[#0c596e]', 'text-white');
+        btn.classList.remove('text-[#0c596e]');
+      }
+      filterProjects();
+    }
+
+    function filterProjects() {
+      const query = document.getElementById('searchInput').value.toLowerCase();
+      const results = document.getElementById('results');
+      const noResults = document.getElementById('noResults');
+      results.innerHTML = '';
+
+      const filtered = projects.filter(p => {
+        const matchesQuery = !query ||
+          p.title.toLowerCase().includes(query) ||
+          p.student.toLowerCase().includes(query) ||
+          p.programme.toLowerCase().includes(query) ||
+          p.tags.some(t => t.toLowerCase().includes(query));
+        const matchesTags = activeTags.size === 0 ||
+          [...activeTags].every(t => p.tags.includes(t));
+        return matchesQuery && matchesTags;
+      });
+
+      if (filtered.length === 0) {
+        noResults.classList.remove('hidden');
+        return;
+      }
+      noResults.classList.add('hidden');
+
+      filtered.forEach(p => {
+        const card = document.createElement('a');
+        card.href = `/project/${p.id}/`;
+        card.className = 'bg-white rounded-lg shadow-sm border border-gray-200 p-5 hover:shadow-md hover:border-[#0c596e] transition block';
+        card.innerHTML = `
+          <h3 class="font-semibold text-gray-800 mb-1">${p.title}</h3>
+          <p class="text-sm text-gray-500 mb-1">${p.student}</p>
+          <p class="text-sm text-gray-400 mb-3">${p.programme} · ${p.year}</p>
+          <div class="flex flex-wrap gap-1">
+            ${p.tags.map(t => `<span class="px-2 py-0.5 bg-[#0c596e]/10 text-[#0c596e] text-xs rounded-full">${t}</span>`).join('')}
+          </div>
+        `;
+        results.appendChild(card);
+      });
+    }
+
+    // Initial render
+    filterProjects();
+  </script>
+{% endblock %}

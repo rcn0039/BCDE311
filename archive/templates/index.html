@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+    <title>Home</title>
+    
+    <div class="relative w-full h-97 overflow-hidden">
+        <div class="flex h-full transition-transform duration-500 ease-in-out" id="carousel">
+            <div id="slide1" class="min-w-full h-full">
+                <img src="{% static 'aesite/img/carousel/slide1.jpg' %}" class="w-full object-cover object-top rounded-lg">
+            </div>
+            <div id="slide2" class="min-w-full h-full">
+                <img src="{% static 'aesite/img/carousel/slide2.jpg' %}" class="w-full object-cover object-bottom rounded-lg">
+            </div>
+            <div id="slide3" class="min-w-full h-full">
+                <img src="{% static 'aesite/img/carousel/slide3.jpg' %}" class="w-full object-cover object-bottom rounded-lg">
+            </div>
+        </div>
+
+        <button onclick="changeSlide(-1)" class="absolute left-4 top-1/2 -translate-y-1/2 bg-black/40 text-white rounded-full w-10 h-10 text-xl hover:bg-black/60 transition">❮</button>
+        <button onclick="changeSlide(1)" class="absolute right-4 top-1/2 -translate-y-1/2 bg-black/40 text-white rounded-full w-10 h-10 text-xl hover:bg-black/60 transition">❯</button>
+
+        <div class="absolute inset-0 flex justify-center bg-black/50 pointer-events-none py-20">
+            <div class="text-center text-white py-20">
+                <p class="text-lg font-light tracking-widest uppercase mb-2">Next Event</p>
+                <p class="text-6xl font-bold drop-shadow-lg">2 - 6 December 2026</p>
+            </div>
+        </div>
+    
+    </div>
+
+    <script>
+        let current = 0;
+        const slides = document.querySelectorAll('#carousel > div');
+
+        function changeSlide(direction) {
+            current = (current + direction + slides.length) % slides.length;
+            document.getElementById('carousel').style.transform = `translateX(-${current * 100}%)`;
+        }
+
+        // Auto advance every 5 seconds
+        setInterval(() => changeSlide(1), 5000);
+    </script>
+    
+    <main class="max-w-2xl mx-auto mt-10 px-4"></main>    
+        <h1 class="text-center text-xl mb-6">About &lt;Emerge&gt;</h1>
+        <div class="bg-gray-200 rounded p-10 text-center text-gray-600" style="width: 50%; margin: 0 auto;">
+            <p>
+                Capstone projects play an important part in preparing our IT students for the workplace.
+                Industry contributes significantly to this, by providing innovative real-world project
+                opportunities, and by providing supportive mentorship. Throughout their projects students
+                are gaining valuable workplace skills, they are expanding their knowledge in business
+                operations, and they are encouraged and motivated to think about the future and what their
+                part will be in designing technologies for the future.
+            </p>
+        </div>
+    </main>
+{% endblock %}

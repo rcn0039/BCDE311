@@ -1,8 +1,14 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404, redirect
+from django.contrib.auth.decorators import login_required
+
 from .models import Event
 # Create your views here.
 
-def home(request):
-    upcoming_events = Event.objects.filter(is_upcoming=True).first()
-    previous_events = Event.objects.filter(is_previous=True).first()
-    return render(request, 'archive/home.html', {'upcoming_events': upcoming_events, 'previous_events': previous_events})
+def index(request):
+    return render(request, "index.html")
+
+def search(request):
+    return render(request, "search.html")
+
+def project(request, id):
+    return render(request, "project.html", {'project': {}})

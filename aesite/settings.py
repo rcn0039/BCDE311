@@ -23,22 +23,22 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-^a05i!k-0t6hc9pj&%x#pe&hxw_p)x60!lgi&42aser9e%!zcf'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
-STATIC_ROOT = BASE_DIR / "staticfiles"
-MEDIA_URL = '/media/'
-MEDIA_ROOT = BASE_DIR / "media"
 
 # Application definition
 
 INSTALLED_APPS = [
+    'archive.apps.ArchiveConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'tailwind',
+    'theme',
 ]
 
 MIDDLEWARE = [
@@ -57,10 +57,13 @@ ROOT_URLCONF = 'aesite.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [
+            BASE_DIR/"archive"/"templates"
+            ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
+                'django.template.context_processors.debug',
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
@@ -77,8 +80,12 @@ WSGI_APPLICATION = 'aesite.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'aesitedb',
+        'USER': 'admin',
+        'PASSWORD': '*Oct262002*',
+        'HOST': 'localhost',
+        'PORT': '3306'
     }
 }
 
@@ -118,5 +125,15 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/6.0/howto/static-files/
 
 STATIC_URL = '/static/'
+STATIC_ROOT = BASE_DIR / "staticfiles"
+STATICFILES_DIRS = [
+    BASE_DIR / "archive/static",
+]
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+LOGIN_REDIRECT_URL = "/"
+LOGOUT_REDIRECT_URL = "/"
+
+TAILWIND_APP_NAME = 'theme'

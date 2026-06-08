@@ -1,0 +1,81 @@
+{% load static tailwind_tags %}
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+
+        {% tailwind_css %}
+
+        <link rel="stylesheet" href="{% static 'aesite/css/fonts2.css' %}">
+    </head>
+    <body class="bg-white min-h-screen">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <header class="bg-[#0c596e] px-6 py-8 flex items-center">
+            <div class="w-48">
+                <img src="{% static 'aesite/img/Ara Landscape Logo_White.png' %}" alt="Ara Logo" class="h-20">
+            </div>
+            <h1 class="site-title flex-1 text-center text-white text-6xl font-bold tracking-widest">Archive &lt;Emerge&gt;</h1>
+            <div class="w-48"></div>
+        </header>
+        <!--<nav class="flex items-center justify-between px-8 py-5 border-b border-zinc-800">
+            <ul class="flex gap-8 text-sm uppercase tracking-widest">
+                <li><a href="{% url 'archive:index' %}"  class="hover:text-cyan-400 transition">Home</a></li>
+                <li><a href="../../admin/login/"  class="hover:text-cyan-400 transition">Admin</a></li>
+            </ul>
+        </nav>-->
+        <script src="https://cdn.jsdelivr.net/npm/@tailwindplus/elements@1" type="module"></script>
+        <nav class="relative bg-[#50acc8] border-b border-white/10">
+        <div class="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
+            <div class="relative flex h-16 items-center justify-between">
+                <div class="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
+                    <div class="sm:ml-6 sm:block">
+                        <div class="flex space-x-4">
+                            <!-- Current: "bg-gray-950/50 text-white", Default: "text-gray-300 hover:bg-white/5 hover:text-white"-->
+                            <a href="{% url 'archive:index' %}" class="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-white/5 hover:text-white">Home</a>
+                            <a href="{% url 'archive:search' %}" class="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-white/5 hover:text-white">Search</a>
+                            <a href="../../admin/login/" class="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-white/5 hover:text-white">Admin</a>
+                        </div>
+                            <!-- Mobile Button -->
+                            <button id="menu-button"
+                            class="md:hidden text-white text-3xl">
+
+                                ☰
+
+                            </button>
+
+                    </div>
+
+                    <!-- Mobile Menu -->
+                    <div id="mobile-menu"
+                    class="hidden md:hidden flex flex-col gap-2 pb-4">
+
+                        <a href="{% url 'archive:index' %}"
+                        class="rounded-md px-3 py-2 text-white hover:bg-white/10">
+                        Home
+                        </a>
+
+                        <a href="{% url 'archive:search' %}"
+                        class="rounded-md px-3 py-2 text-white hover:bg-white/10">
+                            Search
+                        </a>
+
+                        <a href="../../admin/login/"
+                        class="rounded-md px-3 py-2 text-white hover:bg-white/10">
+                            Admin
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+        </nav>
+        {% block content %}
+        {% endblock %}
+        <footer class="bg-[#0c596e] text-center text-white py-8 mt-10">
+            <p class="text-sm">&copy; 2026 Rylan Nabben. All rights reserved.</p>
+        </footer>
+    </body>
+</html>

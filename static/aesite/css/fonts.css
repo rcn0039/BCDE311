@@ -1,0 +1,19 @@
+@font-face {
+    font-family: "Stag Sans Black";
+    src: "../fonts/StagSans-Black.woff2" format("woff2");
+    font-weight: 900;
+}
+
+@font-face {
+    font-family: "Stag Bold";
+    src: "../fonts/Stag-Bold.woff2" format("woff2");
+    font-weight: 700;
+}
+
+.site-title {
+    font-family: "Stag Bold", serif;
+}
+
+body {
+    font-family: "Stag Sans Black", sans-serif;
+}
